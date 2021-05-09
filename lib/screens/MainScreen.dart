@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:curved_bottom_navigation/curved_bottom_navigation.dart';
-
 import 'itemScreen.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key key}) : super(key: key);
 
@@ -49,7 +49,3 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-
-/*
-
- */
