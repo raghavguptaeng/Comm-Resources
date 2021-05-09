@@ -14,7 +14,8 @@ var kSubTextStyle = GoogleFonts.notoSans(
     fontWeight: FontWeight.bold,
   ),
 );
+var secolor = Color(0xffFDBA36);
 var kAddStyle = BoxDecoration(
-color: Color(0xffFDBA36),
+color: secolor,
 borderRadius: BorderRadius.circular(25)
 );
