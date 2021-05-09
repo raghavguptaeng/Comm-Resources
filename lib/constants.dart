@@ -7,3 +7,14 @@ var kHeadFontStyle = GoogleFonts.notoSans(
     fontWeight: FontWeight.bold,
   ),
 );
+var kSubTextStyle = GoogleFonts.notoSans(
+  textStyle: TextStyle(
+    fontSize: 25,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+  ),
+);
+var kAddStyle = BoxDecoration(
+color: Color(0xffFDBA36),
+borderRadius: BorderRadius.circular(25)
+);
