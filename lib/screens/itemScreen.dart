@@ -1,18 +1,25 @@
 import 'package:comm_resources/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-class Page1 extends StatelessWidget {
+class Page1 extends StatefulWidget {
+  const Page1({Key key}) : super(key: key);
+
+  @override
+  _Page1State createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
   var resoures = {
     'medicine': [
-      {'name': 'Paracetamol', 'quantity': 60, 'average price': 5.55},
-      {'name': 'Remdivisor', 'quantity': 900, 'average price': 69.420},
-      {'name': 'Dolo', 'quantity': 69, 'average price': 955.42},
-      {'name': 'Paracetamol', 'quantity': 60, 'average price': 5.55},
-      {'name': 'Remdivisor', 'quantity': 900, 'average price': 69.420},
-      {'name': 'Dolo', 'quantity': 69, 'average price': 955.42},
-      {'name': 'Paracetamol', 'quantity': 60, 'average price': 5.55},
-      {'name': 'Remdivisor', 'quantity': 900, 'average price': 69.420},
-      {'name': 'Dolo', 'quantity': 69, 'average price': 955.42}
+      {'name': 'Paracetamol', 'quantity': 60, 'average price': 5.55,'inCart':0},
+      {'name': 'Remdivisor', 'quantity': 900, 'average price': 69.420,'inCart':0},
+      {'name': 'Dolo', 'quantity': 69, 'average price': 955.42,'inCart':0},
+      {'name': 'Paracetamol', 'quantity': 60, 'average price': 5.55,'inCart':0},
+      {'name': 'Remdivisor', 'quantity': 900, 'average price': 69.420,'inCart':0},
+      {'name': 'Dolo', 'quantity': 69, 'average price': 955.42,'inCart':0},
+      {'name': 'Paracetamol', 'quantity': 60, 'average price': 5.55,'inCart':0},
+      {'name': 'Remdivisor', 'quantity': 900, 'average price': 69.420,'inCart':0},
+      {'name': 'Dolo', 'quantity': 69, 'average price': 955.42,'inCart':0}
     ]
   };
   @override
@@ -34,8 +41,8 @@ class Page1 extends StatelessWidget {
                 itemCount: resoures['medicine'].length,
                 itemBuilder: (BuildContext context, int index) {
                   return ItemCard(context, index);
-                }),
-          )
+                },),
+          ),
         ],
       ),
     );
@@ -80,8 +87,16 @@ class Page1 extends StatelessWidget {
                   style:kSubTextStyle,
                 ),
                 GestureDetector(
+                  onTap:(){
+                    setState(() {
+                      if(resoures['medicine'][index]['inCart'] !=0 )
+                        resoures['medicine'][index]['inCart'] = 0;
+                      else
+                        resoures['medicine'][index]['inCart'] = 1;
+                    });
+                  },
                   child: Container(
-                    child: Icon(FontAwesomeIcons.plus),
+                    child: Icon((resoures['medicine'][index]['inCart'] != 0)?FontAwesomeIcons.solidHeart:FontAwesomeIcons.heart),
                     decoration: kAddStyle,
                     padding: EdgeInsets.all(10),
                   ),
