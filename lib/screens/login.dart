@@ -1,3 +1,4 @@
+import 'package:comm_resources/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -57,7 +58,16 @@ class _LoginState extends State<Login> {
     print(message);
   }
   void signInWithPhoneNumber() async {
-
+    try {
+      final AuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: _verificationId,
+        smsCode: _smsController.text,
+      );
+      final User user = (await _auth.signInWithCredential(credential)).user;
+      Navigator.pushReplacementNamed(context, MainScreen.id);
+    } catch (e) {
+      showSnackbar("Failed to sign in: " + e.toString());
+    }
   }
   @override
   Widget build(BuildContext context) {

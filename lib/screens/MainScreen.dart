@@ -7,6 +7,7 @@ import 'package:curved_bottom_navigation/curved_bottom_navigation.dart';
 import 'itemScreen.dart';
 
 class MainScreen extends StatefulWidget {
+  static String id = '/mainScreen';
   const MainScreen({Key key}) : super(key: key);
 
   @override
