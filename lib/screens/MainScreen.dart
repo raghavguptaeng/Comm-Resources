@@ -1,4 +1,5 @@
 import 'package:comm_resources/constants.dart';
+import 'package:comm_resources/screens/addItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -25,25 +26,23 @@ class _MainScreenState extends State<MainScreen> {
             index: navPos,
             children: [
               Page1(),
+              addItem()
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: CurvedBottomNavigation(
-              selected: navPos,
-              onItemClick: (i) {
-                setState(() {
-                  navPos = i;
-                });
-              },
-              items: [
-                Icon(FontAwesomeIcons.home, color: secolor),
-                Icon(FontAwesomeIcons.cartPlus, color: secolor),
-                Icon(FontAwesomeIcons.plus, color: secolor),
-                Icon(FontAwesomeIcons.user, color: secolor)
-              ],
-            ),
-          ),
+        ],
+      ),
+      bottomNavigationBar: CurvedBottomNavigation(
+        selected: navPos,
+        onItemClick: (i) {
+          setState(() {
+            navPos = i;
+          });
+        },
+        items: [
+          Icon(FontAwesomeIcons.home, color: secolor),
+          Icon(FontAwesomeIcons.cartPlus, color: secolor),
+          Icon(FontAwesomeIcons.plus, color: secolor),
+          Icon(FontAwesomeIcons.user, color: secolor)
         ],
       ),
     );

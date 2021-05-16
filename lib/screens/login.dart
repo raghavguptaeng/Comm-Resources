@@ -101,6 +101,7 @@ class _LoginState extends State<Login> {
                   color: Colors.greenAccent[200],
                   onPressed: () async {
                     signInWithPhoneNumber();
+                    Navigator.pushReplacementNamed(context, MainScreen.id);
                   },
                   child: Text("Sign in")),
             ),
