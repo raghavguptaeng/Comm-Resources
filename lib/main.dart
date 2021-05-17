@@ -1,3 +1,4 @@
+import 'package:comm_resources/screens/Login/AddNewUserDetails.dart';
 import 'package:comm_resources/screens/MainScreen.dart';
 import 'package:comm_resources/screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,7 +15,8 @@ class Init extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        MainScreen.id:(context)=>MainScreen()
+        MainScreen.id:(context)=>MainScreen(),
+        AddNewUserDetails.id:(context)=>AddNewUserDetails()
       },
       home: Login(),
     );

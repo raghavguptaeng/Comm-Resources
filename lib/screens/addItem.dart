@@ -1,3 +1,5 @@
+import 'package:comm_resources/screens/Login/AddNewUserDetails.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,13 +41,9 @@ class _addItemState extends State<addItem> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: GestureDetector(
-        onTap: (){
-          firestore.collection('Resources').add({
-            'AvgPrice':'79',
-            'InStock':'99',
-            'name':'Remdivisor'
-          });
-          print('ok');
+        onTap: () async {
+
+
         },
         child: Text('ok'),
       ),

@@ -1,4 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:comm_resources/screens/Login/AddNewUserDetails.dart';
 import 'package:comm_resources/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -64,12 +66,20 @@ class _LoginState extends State<Login> {
 
   void signInWithPhoneNumber() async {
     try {
+      await Firebase.initializeApp();
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: _verificationId,
         smsCode: _smsController.text,
       );
       final User user = (await _auth.signInWithCredential(credential)).user;
-      Navigator.pushReplacementNamed(context, MainScreen.id);
+      var firestore = FirebaseFirestore.instance;
+      DocumentSnapshot docSnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser.uid).get();
+      bool isDocExists = docSnapshot.exists;
+      if(!isDocExists)
+        Navigator.pushNamed(context, AddNewUserDetails.id);
+      else {
+        Navigator.pushReplacementNamed(context, MainScreen.id);
+      }
     } catch (e) {
       showSnackbar("Failed to sign in: " + e.toString());
     }
@@ -259,7 +269,6 @@ class _LoginState extends State<Login> {
             GestureDetector(
               onTap: ()async{
                 signInWithPhoneNumber();
-                Navigator.pushReplacementNamed(context, MainScreen.id);
               },
               child: Container(
                 width: 150,
