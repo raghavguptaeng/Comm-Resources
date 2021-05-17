@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
 class addItem extends StatefulWidget {
   const addItem({Key key}) : super(key: key);
@@ -51,7 +52,7 @@ class _addItemState extends State<addItem> {
         Center(
           child: Container(
             decoration: BoxDecoration(
-                color: Color(0xFFC4C4C4),
+                color: Colors.cyan,
                 borderRadius: BorderRadius.circular(15)),
             width: MediaQuery.of(context).size.width * 0.70,
             child: TextField(
@@ -74,7 +75,7 @@ class _addItemState extends State<addItem> {
         ),
         Container(
           decoration: BoxDecoration(
-              color: Color(0xFFC4C4C4),
+              color: Colors.tealAccent,
               borderRadius: BorderRadius.circular(15)),
           width: MediaQuery.of(context).size.width * 0.70,
           child: TextField(
@@ -92,14 +93,16 @@ class _addItemState extends State<addItem> {
               ),
               hintText: 'Quantity',
             ),
+            keyboardType: TextInputType.number,
           ),
         ),
         Container(
           decoration: BoxDecoration(
-              color: Color(0xFFC4C4C4),
+              color: Colors.indigoAccent,
               borderRadius: BorderRadius.circular(15)),
           width: MediaQuery.of(context).size.width * 0.70,
           child: TextField(
+            keyboardType: TextInputType.number,
             onChanged: (value) {
               price = value;
             },
