@@ -42,76 +42,144 @@ class _Page1State extends State<Page1> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          Greeting(),
-          SizedBox(
-            height: 25,
-          ),
-          seachArea(context),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.40,
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("Medicines")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.data == null) {
-                  return Text("No Data Present");
-                } else
-                  return ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data.docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var data = snapshot.data.docs[index];
-                      return ItemCard(context, index, data['name'],
-                          data['qty'].toString(), data['avgPrice']);
-                    },
-                  );
-              },
+      child: SingleChildScrollView(
+        physics:BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          //physics: BouncingScrollPhysics(),
+          children: [
+            Greeting(),
+            SizedBox(
+              height: 25,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left:15),
-            child: Text("Your Resources",style: kSubTextStyle.copyWith(color: Colors.black),),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text('name',style: kSubTextStyle.copyWith(color: Colors.purple,),),
-              Text('Price',style: kSubTextStyle.copyWith(color: Colors.pink),),
-              Text('qty',style: kSubTextStyle.copyWith(color:Colors.indigo),)
-            ],
-          ),
-          StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('Medicines').where('vendor',isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots(),
-            builder:(context,snapshot){
-              return SizedBox(
-                height:500,
-                child: ListView.builder(
-                  padding: EdgeInsets.all(0),
-                  physics: BouncingScrollPhysics(),
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (context,index){
-                    DocumentSnapshot resources = snapshot.data.docs[index];
-                      return(
-                          (resources['vendor']==FirebaseAuth.instance.currentUser.uid)?Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            seachArea(context),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.35,
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("Medicines")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return Text("No Data Present");
+                  } else
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var data = snapshot.data.docs[index];
+                        return ItemCard(context, index, data['name'],
+                            data['qty'].toString(), data['avgPrice']);
+                      },
+                    );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                "Your Resources",
+                style: kSubTextStyle.copyWith(color: Colors.black),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //SizedBox(width:5,),
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.5,
+                    child: Text(
+                      'name',
+                      style: kSubTextStyle.copyWith(
+                        color: Colors.purple,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.2,
+                    child: Text(
+                      'Price',
+                      style: kSubTextStyle.copyWith(color: Colors.pink),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.2,
+                    child: Text(
+                      'qty',
+                      style: kSubTextStyle.copyWith(color: Colors.indigo),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 300,
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Medicines')
+                    .snapshots(), //.where('vendor',isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots(),
+                builder: (context, snapshot) {
+                  List data = [];
+                  int j = 0;
+                  for (int i = 0; i < snapshot.data.docs.length; ++i) {
+                    if (snapshot.data.docs[i]['vendor'] ==
+                        FirebaseAuth.instance.currentUser.uid) {
+                      data.add([
+                        snapshot.data.docs[i]['name'],
+                        snapshot.data.docs[i]['qty'],
+                        snapshot.data.docs[i]['avgPrice']
+                      ]);
+                      j++;
+                    }
+                  }
+                  return SizedBox(
+                    height: 500,
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      physics: BouncingScrollPhysics(),
+                      itemCount: j, //snapshot.data.docs.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: (Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(resources['name'],style: kSubTextStyle.copyWith(color: Colors.blue),),
-                              Text(resources['avgPrice'],style: kSubTextStyle.copyWith(color: Colors.black),),
-                              Text(resources['qty'],style: kSubTextStyle.copyWith(color:secolor),)
+                              Container(
+                                  child: Text(
+                                data[index][0],
+                                style: kSubTextStyle.copyWith(color: Colors.blue),
+                              ),
+                                width: MediaQuery.of(context).size.width*0.5,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.2,
+                                child: Text(
+                                  data[index][1],
+                                  style:
+                                      kSubTextStyle.copyWith(color: Colors.black),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.2,
+                                child: Text(
+                                  data[index][2],
+                                  style: kSubTextStyle.copyWith(color: secolor),
+                                ),
+                              )
                             ],
-                          ):null
-                      );
-                  },
-                ),
-              );
-            },
-          )
-        ],
+                          )),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -122,7 +190,7 @@ Container ItemCard(
     BuildContext context, int index, String name, String qty, String price) {
   return Container(
     margin: EdgeInsets.all(15),
-    width: MediaQuery.of(context).size.width * 0.55,
+    width: MediaQuery.of(context).size.width * 0.45,
     decoration: BoxDecoration(
         color: Colors.blue, borderRadius: BorderRadius.circular(20)),
     child: Column(
