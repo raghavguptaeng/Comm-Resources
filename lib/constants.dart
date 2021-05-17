@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 var kHeadFontStyle = GoogleFonts.notoSans(
   textStyle: TextStyle(
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
   ),
 );

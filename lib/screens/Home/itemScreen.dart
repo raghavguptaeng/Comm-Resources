@@ -52,7 +52,7 @@ class _Page1State extends State<Page1> {
               ),
               seachArea(context),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.60,
+                height: MediaQuery.of(context).size.height * 0.40,
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection("Medicines").snapshots(),
                   builder: (context,snapshot){
@@ -82,17 +82,19 @@ class _Page1State extends State<Page1> {
 
     return Container(
       margin: EdgeInsets.all(15),
-      width: MediaQuery.of(context).size.width * 0.65,
+      width: MediaQuery.of(context).size.width * 0.55,
       decoration: BoxDecoration(
           color: Colors.blue, borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-                'assets/bottle${(index > 4 || index % 4 == 0) ? index % 4 + 1 : index + 1}.png'),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                  'assets/bottle${(index > 4 || index % 4 == 0) ? index % 4 + 1 : index + 1}.png',width: 105,),
+            ),
           ),
           Center(
             child: Container(
