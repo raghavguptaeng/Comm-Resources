@@ -13,7 +13,6 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
-
   final firestore = FirebaseFirestore.instance;
   bool _initialized = false;
   bool _error = false;
@@ -44,148 +43,190 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView(
-            physics: BouncingScrollPhysics(),
-            children: [
-              Greeting(),
-              SizedBox(
-                height: 25,
-              ),
-              seachArea(context),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.40,
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("Medicines").snapshots(),
-                  builder: (context,snapshot){
-                    if(snapshot.data == null){
-                      return Text("No Data Present");
-                    }
-                    else return ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var data = snapshot.data.docs[index];
-                        return ItemCard(context,index ,data['name'] ,data['qty'].toString() ,data['avgPrice']);
-                      },
-                    );
+        physics: BouncingScrollPhysics(),
+        children: [
+          Greeting(),
+          SizedBox(
+            height: 25,
+          ),
+          seachArea(context),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.40,
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("Medicines")
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return Text("No Data Present");
+                } else
+                  return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var data = snapshot.data.docs[index];
+                      return ItemCard(context, index, data['name'],
+                          data['qty'].toString(), data['avgPrice']);
                     },
-                ),
-              ),
+                  );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left:15),
+            child: Text("Your Resources",style: kSubTextStyle.copyWith(color: Colors.black),),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text('name',style: kSubTextStyle.copyWith(color: Colors.purple,),),
+              Text('Price',style: kSubTextStyle.copyWith(color: Colors.pink),),
+              Text('qty',style: kSubTextStyle.copyWith(color:Colors.indigo),)
             ],
           ),
-        );
-  }
-  }
-
-  // Following method constructs the cards that shows available items
-  Container ItemCard(BuildContext context,int index,String name,String qty,String price) {
-
-    return Container(
-      margin: EdgeInsets.all(15),
-      width: MediaQuery.of(context).size.width * 0.55,
-      decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                  'assets/bottle${(index > 4 || index % 4 == 0) ? index % 4 + 1 : index + 1}.png',width: 105,),
-            ),
-          ),
-          Center(
-            child: Container(
-              padding: EdgeInsets.all(2),
-              child: Text(
-                name,
-                style: kHeadFontStyle.copyWith(color: Colors.white),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Text(
-              'In Stock: ' + qty,
-              style: kSubTextStyle,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              children: [
-                Text(
-                  price+
-                      ' \$',
-                  style: kSubTextStyle,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // setState(() {
-                    //   if (resoures['medicine'][index]['inCart'] != 0)
-                    //     resoures['medicine'][index]['inCart'] = 0;
-                    //   else
-                    //     resoures['medicine'][index]['inCart'] = 1;
-                    // });
+          StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('Medicines').snapshots(),
+            builder:(context,snapshot){
+              return SizedBox(
+                height:MediaQuery.of(context).size.height*0.4,
+                child: ListView.builder(
+                  padding: EdgeInsets.all(0),
+                  physics: BouncingScrollPhysics(),
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context,index){
+                    DocumentSnapshot resources = snapshot.data.docs[index];
+                    if(resources['vendor'] == FirebaseAuth.instance.currentUser.uid){
+                      return(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(resources['name'],style: kSubTextStyle.copyWith(color: Colors.blue),),
+                              Text(resources['avgPrice'],style: kSubTextStyle.copyWith(color: Colors.black),),
+                              Text(resources['qty'],style: kSubTextStyle.copyWith(color:secolor),)
+                            ],
+                          )
+                      );
+                    }
                   },
-                  child: Container(
-                    child:Icon(FontAwesomeIcons.heart),
-                    decoration: kAddStyle,
-                    padding: EdgeInsets.all(10),
-                  ),
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
+                ),
+              );
+            },
           )
         ],
       ),
     );
   }
+}
 
-  // Following Methods construct the top search bar present
-  Row seachArea(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+// Following method constructs the cards that shows available items
+Container ItemCard(
+    BuildContext context, int index, String name, String qty, String price) {
+  return Container(
+    margin: EdgeInsets.all(15),
+    width: MediaQuery.of(context).size.width * 0.55,
+    decoration: BoxDecoration(
+        color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-              color: Color(0xFFC4C4C4),
-              borderRadius: BorderRadius.circular(15)),
-          width: MediaQuery.of(context).size.width * 0.70,
-          child: TextField(
-            decoration: new InputDecoration(
-              fillColor: Colors.grey,
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 1.0),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              hintText: 'Search for resources',
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+              'assets/bottle${(index > 4 || index % 4 == 0) ? index % 4 + 1 : index + 1}.png',
+              width: 105,
             ),
           ),
         ),
-        SizedBox(
-          width: 15,
-        ),
-        GestureDetector(
+        Center(
           child: Container(
-            height: 55,
-            width: 55,
-            decoration: BoxDecoration(
-                color: Color(0xFF2E8CFF),
-                borderRadius: BorderRadius.circular(15)),
-            child: Icon(FontAwesomeIcons.search),
+            padding: EdgeInsets.all(2),
+            child: Text(
+              name,
+              style: kHeadFontStyle.copyWith(color: Colors.white),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(
+            'In Stock: ' + qty,
+            style: kSubTextStyle,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Row(
+            children: [
+              Text(
+                price + ' \$',
+                style: kSubTextStyle,
+              ),
+              GestureDetector(
+                onTap: () {
+                  // setState(() {
+                  //   if (resoures['medicine'][index]['inCart'] != 0)
+                  //     resoures['medicine'][index]['inCart'] = 0;
+                  //   else
+                  //     resoures['medicine'][index]['inCart'] = 1;
+                  // });
+                },
+                child: Container(
+                  child: Icon(FontAwesomeIcons.heart),
+                  decoration: kAddStyle,
+                  padding: EdgeInsets.all(10),
+                ),
+              )
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
         )
       ],
-    );
-  }
+    ),
+  );
+}
 
+// Following Methods construct the top search bar present
+Row seachArea(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            color: Color(0xFFC4C4C4), borderRadius: BorderRadius.circular(15)),
+        width: MediaQuery.of(context).size.width * 0.70,
+        child: TextField(
+          decoration: new InputDecoration(
+            fillColor: Colors.grey,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white, width: 1.0),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            hintText: 'Search for resources',
+          ),
+        ),
+      ),
+      SizedBox(
+        width: 15,
+      ),
+      GestureDetector(
+        child: Container(
+          height: 55,
+          width: 55,
+          decoration: BoxDecoration(
+              color: Color(0xFF2E8CFF),
+              borderRadius: BorderRadius.circular(15)),
+          child: Icon(FontAwesomeIcons.search),
+        ),
+      )
+    ],
+  );
+}
 
 class Greeting extends StatelessWidget {
   const Greeting({
@@ -201,17 +242,19 @@ class Greeting extends StatelessWidget {
         children: [
           Text(
             "Hello!",
-            style: kHeadFontStyle,
+            style: kHeadFontStyle.copyWith(fontSize: 30),
           ),
           StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).snapshots(),
-            builder: (context,snapshot){
-              return Text(
-              snapshot.data.data()['name'],
-              style: kHeadFontStyle,
-              );
-            }
-          )
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                return Text(
+                  snapshot.data.data()['name'],
+                  style: kHeadFontStyle.copyWith(fontSize: 40),
+                );
+              })
         ],
       ),
     );

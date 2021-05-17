@@ -26,80 +26,37 @@ class _addItemState extends State<addItem> {
       setState(() {
         _initialized = true;
       });
-    } catch(e) {
+    } catch (e) {
       // Set `_error` state to true if Firebase initialization fails
       setState(() {
         _error = true;
       });
     }
   }
-  String name,price,quantity;
+
+  String name, price, quantity;
   @override
   void initState() {
     initializeFlutterFire();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child:Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color(0xFFC4C4C4),
-                  borderRadius: BorderRadius.circular(15)),
-              width: MediaQuery.of(context).size.width * 0.70,
-              child: TextField(
-    onChanged: (value){
-    name = value;
-    },
-                decoration: new InputDecoration(
-                  fillColor: Colors.grey,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white, width: 1.0),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  hintText: 'Resource Name',
-                ),
-              ),
-            ),
-          ),
-          Container(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Center(
+          child: Container(
             decoration: BoxDecoration(
                 color: Color(0xFFC4C4C4),
                 borderRadius: BorderRadius.circular(15)),
             width: MediaQuery.of(context).size.width * 0.70,
             child: TextField(
-    onChanged: (value){
-    quantity = value;
-    },
-              decoration: new InputDecoration(
-                fillColor: Colors.grey,
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                hintText: 'Quantity',
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: Color(0xFFC4C4C4),
-                borderRadius: BorderRadius.circular(15)),
-            width: MediaQuery.of(context).size.width * 0.70,
-            child: TextField(
-              onChanged: (value){
-                price = value;
+              onChanged: (value) {
+                name = value;
               },
               decoration: new InputDecoration(
                 fillColor: Colors.grey,
@@ -110,33 +67,79 @@ class _addItemState extends State<addItem> {
                   borderSide: BorderSide(color: Colors.white, width: 1.0),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                hintText: 'Price Per Unit',
+                hintText: 'Resource Name',
               ),
             ),
           ),
-          GestureDetector(
-            onTap: (){
-              FirebaseFirestore.instance.collection('Medicines').doc().set(
-                  {
-                    'name':name,
-                    'qty':quantity,
-                    'avgPrice':price,
-                    'vendor':FirebaseAuth.instance.currentUser.uid
-                  });
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Color(0xFFC4C4C4),
+              borderRadius: BorderRadius.circular(15)),
+          width: MediaQuery.of(context).size.width * 0.70,
+          child: TextField(
+            onChanged: (value) {
+              quantity = value;
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: secolor,
-                  border: Border.all(color: Colors.black,width: 2)
+            decoration: new InputDecoration(
+              fillColor: Colors.grey,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
               ),
-              width: 200,
-              height: 50,
-              child: Center(child: Text('Add Resource',style: kSubTextStyle,)),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white, width: 1.0),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              hintText: 'Quantity',
             ),
-          )
-        ],
-      )
-    );
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Color(0xFFC4C4C4),
+              borderRadius: BorderRadius.circular(15)),
+          width: MediaQuery.of(context).size.width * 0.70,
+          child: TextField(
+            onChanged: (value) {
+              price = value;
+            },
+            decoration: new InputDecoration(
+              fillColor: Colors.grey,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white, width: 1.0),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              hintText: 'Price Per Unit',
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            FirebaseFirestore.instance.collection('Medicines').doc().set({
+              'name': name,
+              'qty': quantity,
+              'avgPrice': price,
+              'vendor': FirebaseAuth.instance.currentUser.uid
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: secolor,
+                border: Border.all(color: Colors.black, width: 2)),
+            width: 200,
+            height: 50,
+            child: Center(
+                child: Text(
+              'Add Resource',
+              style: kSubTextStyle,
+            )),
+          ),
+        )
+      ],
+    ));
   }
 }
