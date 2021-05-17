@@ -1,6 +1,6 @@
 import 'package:comm_resources/screens/Login/AddNewUserDetails.dart';
 import 'package:comm_resources/screens/MainScreen.dart';
-import 'package:comm_resources/screens/login.dart';
+import 'package:comm_resources/screens/Login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 Future<void> main() async {

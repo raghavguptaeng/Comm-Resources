@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:comm_resources/constants.dart';
 import 'package:flutter/material.dart';
 class AddNewUserDetails extends StatefulWidget {
   static String id = '/newuserdetails';
@@ -8,11 +10,13 @@ class AddNewUserDetails extends StatefulWidget {
 }
 
 class _AddNewUserDetailsState extends State<AddNewUserDetails> {
+  String Name,City,Age,Country;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -20,6 +24,9 @@ class _AddNewUserDetailsState extends State<AddNewUserDetails> {
                   borderRadius: BorderRadius.circular(15)),
               width: MediaQuery.of(context).size.width * 0.70,
               child: TextField(
+                onChanged: (value){
+                  Name = value;
+                },
                 decoration: new InputDecoration(
                   fillColor: Colors.grey,
                   focusedBorder: OutlineInputBorder(
@@ -29,7 +36,7 @@ class _AddNewUserDetailsState extends State<AddNewUserDetails> {
                     borderSide: BorderSide(color: Colors.white, width: 1.0),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  hintText: 'Search for resources',
+                  hintText: 'Enter your name',
                 ),
               ),
             ),
@@ -39,6 +46,9 @@ class _AddNewUserDetailsState extends State<AddNewUserDetails> {
                   borderRadius: BorderRadius.circular(15)),
               width: MediaQuery.of(context).size.width * 0.70,
               child: TextField(
+                onChanged: (value){
+                  Age = value;
+                },
                 decoration: new InputDecoration(
                   fillColor: Colors.grey,
                   focusedBorder: OutlineInputBorder(
@@ -48,7 +58,7 @@ class _AddNewUserDetailsState extends State<AddNewUserDetails> {
                     borderSide: BorderSide(color: Colors.white, width: 1.0),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  hintText: 'Search for resources',
+                  hintText: 'Age',
                 ),
               ),
             ),
@@ -58,6 +68,9 @@ class _AddNewUserDetailsState extends State<AddNewUserDetails> {
                   borderRadius: BorderRadius.circular(15)),
               width: MediaQuery.of(context).size.width * 0.70,
               child: TextField(
+                onChanged: (value){
+                  Country = value;
+                },
                 decoration: new InputDecoration(
                   fillColor: Colors.grey,
                   focusedBorder: OutlineInputBorder(
@@ -67,29 +80,55 @@ class _AddNewUserDetailsState extends State<AddNewUserDetails> {
                     borderSide: BorderSide(color: Colors.white, width: 1.0),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  hintText: 'Search for resources',
+                  hintText: 'Enter your country',
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                  color: Color(0xFFC4C4C4),
-                  borderRadius: BorderRadius.circular(15)),
-              width: MediaQuery.of(context).size.width * 0.70,
-              child: TextField(
-                decoration: new InputDecoration(
-                  fillColor: Colors.grey,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xFFC4C4C4),
+                    borderRadius: BorderRadius.circular(15)),
+                width: MediaQuery.of(context).size.width * 0.70,
+                child: TextField(
+                  onChanged: (value){
+                    City = value;
+                  },
+                  decoration: new InputDecoration(
+                    fillColor: Colors.grey,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    hintText: 'Enter Your City',
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white, width: 1.0),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  hintText: 'Search for resources',
                 ),
               ),
             ),
+            GestureDetector(
+              onTap: (){
+                FirebaseFirestore.instance.collection('users').doc().set(
+                    {
+                      'name':Name,
+                      'age':Age,
+                      'Country':Country,
+                      'City':City
+                    });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: secolor,
+                    border: Border.all(color: Colors.black,width: 2)
+                ),
+                width: 200,
+                height: 50,
+                child: Center(child: Text('Add Resource',style: kSubTextStyle,)),
+              ),
+            )
           ],
         ),
       ),

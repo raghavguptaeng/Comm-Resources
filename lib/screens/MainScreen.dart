@@ -1,11 +1,11 @@
 import 'package:comm_resources/constants.dart';
-import 'package:comm_resources/screens/addItem.dart';
+import 'package:comm_resources/screens/Home/addItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:curved_bottom_navigation/curved_bottom_navigation.dart';
-import 'itemScreen.dart';
+import 'Home/itemScreen.dart';
 
 class MainScreen extends StatefulWidget {
   static String id = '/mainScreen';
@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
           IndexedStack(
             index: navPos,
             children: [
+              Page1(),
               Page1(),
               addItem()
             ],

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comm_resources/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -197,12 +198,17 @@ class Greeting extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Good Morning,",
+            "Hello!",
             style: kHeadFontStyle,
           ),
-          Text(
-            "Raghav",
-            style: kHeadFontStyle,
+          StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).snapshots(),
+            builder: (context,snapshot){
+              return Text(
+              snapshot.data.data()['name'],
+              style: kHeadFontStyle,
+              );
+            }
           )
         ],
       ),
