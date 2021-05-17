@@ -9,6 +9,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class Login extends StatefulWidget {
+  static String id = '/login';
   const Login({Key key}) : super(key: key);
 
   @override

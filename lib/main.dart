@@ -15,10 +15,11 @@ class Init extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
+        Login.id:(context)=>Login(),
         MainScreen.id:(context)=>MainScreen(),
         AddNewUserDetails.id:(context)=>AddNewUserDetails()
       },
-      home: Login(),
+      initialRoute: Login.id,
     );
   }
 }

@@ -86,28 +86,26 @@ class _Page1State extends State<Page1> {
             ],
           ),
           StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('Medicines').snapshots(),
+            stream: FirebaseFirestore.instance.collection('Medicines').where('vendor',isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots(),
             builder:(context,snapshot){
               return SizedBox(
-                height:MediaQuery.of(context).size.height*0.4,
+                height:500,
                 child: ListView.builder(
                   padding: EdgeInsets.all(0),
                   physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data.docs.length,
                   itemBuilder: (context,index){
                     DocumentSnapshot resources = snapshot.data.docs[index];
-                    if(resources['vendor'] == FirebaseAuth.instance.currentUser.uid){
                       return(
-                          Row(
+                          (resources['vendor']==FirebaseAuth.instance.currentUser.uid)?Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(resources['name'],style: kSubTextStyle.copyWith(color: Colors.blue),),
                               Text(resources['avgPrice'],style: kSubTextStyle.copyWith(color: Colors.black),),
                               Text(resources['qty'],style: kSubTextStyle.copyWith(color:secolor),)
                             ],
-                          )
+                          ):null
                       );
-                    }
                   },
                 ),
               );

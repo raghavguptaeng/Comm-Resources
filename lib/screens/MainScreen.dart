@@ -1,5 +1,7 @@
 import 'package:comm_resources/constants.dart';
+import 'package:comm_resources/screens/Home/Profile.dart';
 import 'package:comm_resources/screens/Home/addItem.dart';
+import 'package:comm_resources/screens/Login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -27,7 +29,8 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               Page1(),
               Page1(),
-              addItem()
+              addItem(),
+              Profile()
             ],
           ),
         ],
