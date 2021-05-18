@@ -22,7 +22,7 @@ class Init extends StatelessWidget {
         MainScreen.id:(context)=>MainScreen(),
         AddNewUserDetails.id:(context)=>AddNewUserDetails()
       },
-      initialRoute:(pref.getString('uid')==null)?Login.id:MainScreen(),
+      initialRoute:(pref.getString('uid')==null)?Login.id:MainScreen.id,
     );
   }
 }

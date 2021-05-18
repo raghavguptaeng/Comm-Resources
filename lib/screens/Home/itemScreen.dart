@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Page1 extends StatefulWidget {
   const Page1({Key key}) : super(key: key);
@@ -11,7 +12,7 @@ class Page1 extends StatefulWidget {
   @override
   _Page1State createState() => _Page1State();
 }
-
+SharedPreferences pref;
 class _Page1State extends State<Page1> {
   final firestore = FirebaseFirestore.instance;
   bool _initialized = false;
@@ -21,6 +22,7 @@ class _Page1State extends State<Page1> {
   void initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and set `_initialized` state to true
+      pref = await SharedPreferences.getInstance();
       await Firebase.initializeApp();
       setState(() {
         _initialized = true;
@@ -126,7 +128,7 @@ class _Page1State extends State<Page1> {
                   int j = 0;
                   for (int i = 0; i < snapshot.data.docs.length; ++i) {
                     if (snapshot.data.docs[i]['vendor'] ==
-                        FirebaseAuth.instance.currentUser.uid) {
+                        pref.get('uid')) {
                       data.add([
                         snapshot.data.docs[i]['name'],
                         snapshot.data.docs[i]['qty'],
@@ -294,6 +296,8 @@ Row seachArea(BuildContext context) {
   );
 }
 
+
+
 class Greeting extends StatelessWidget {
   const Greeting({
     Key key,
@@ -313,7 +317,7 @@ class Greeting extends StatelessWidget {
           StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('users')
-                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .doc(pref.getString('uid'))
                   .snapshots(),
               builder: (context, snapshot) {
                 return Text(
