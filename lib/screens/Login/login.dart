@@ -5,6 +5,7 @@ import 'package:comm_resources/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -27,6 +28,7 @@ class _LoginState extends State<Login> {
   String _verificationId;
   final SmsAutoFill _autoFill = SmsAutoFill();
   void verifyPhoneNumber() async {
+    initpref();
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) async {
       await _auth.signInWithCredential(phoneAuthCredential);
@@ -69,7 +71,10 @@ class _LoginState extends State<Login> {
     // and use it to show a SnackBar.
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
+  SharedPreferences pref ;
+  void initpref()async{
+    pref = await SharedPreferences.getInstance();
+  }
   void signInWithPhoneNumber() async {
     try {
       await Firebase.initializeApp();
@@ -81,6 +86,7 @@ class _LoginState extends State<Login> {
       var firestore = FirebaseFirestore.instance;
       DocumentSnapshot docSnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser.uid).get();
       bool isDocExists = docSnapshot.exists;
+      pref.setString('uid', FirebaseAuth.instance.currentUser.uid);
       if(!isDocExists)
         Navigator.pushNamed(context, AddNewUserDetails.id);
       else {

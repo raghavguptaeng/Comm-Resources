@@ -3,11 +3,14 @@ import 'package:comm_resources/screens/MainScreen.dart';
 import 'package:comm_resources/screens/Login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  pref = await SharedPreferences.getInstance();
   runApp(Init());
 }
+SharedPreferences pref; // global;
 class Init extends StatelessWidget {
   const Init({Key key}) : super(key: key);
 
@@ -19,7 +22,7 @@ class Init extends StatelessWidget {
         MainScreen.id:(context)=>MainScreen(),
         AddNewUserDetails.id:(context)=>AddNewUserDetails()
       },
-      initialRoute: Login.id,
+      initialRoute:(pref.getString('uid')==null)?Login.id:MainScreen(),
     );
   }
 }
