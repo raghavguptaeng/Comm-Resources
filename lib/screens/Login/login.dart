@@ -220,10 +220,10 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(width: 20.0, height: 100.0),
                   SizedBox(
-                    width: 220,
+                    width: 240,
                     child: DefaultTextStyle(
                       style: const TextStyle(
-                          fontSize: 35.0,
+                          fontSize: 30.0,
                           fontFamily: 'Horizon',
                           fontWeight: FontWeight.bold,
                           color: Colors.black

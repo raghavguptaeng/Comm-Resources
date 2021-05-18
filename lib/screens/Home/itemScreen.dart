@@ -54,7 +54,7 @@ class _Page1State extends State<Page1> {
             ),
             seachArea(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery.of(context).size.height * 0.40,
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("Medicines")
