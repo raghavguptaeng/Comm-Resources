@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comm_resources/constants.dart';
+import 'package:comm_resources/screens/Resources/ResourceScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,9 @@ class Page1 extends StatefulWidget {
   @override
   _Page1State createState() => _Page1State();
 }
+
 SharedPreferences pref;
+
 class _Page1State extends State<Page1> {
   final firestore = FirebaseFirestore.instance;
   bool _initialized = false;
@@ -45,7 +48,7 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        physics:BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           //physics: BouncingScrollPhysics(),
@@ -85,103 +88,123 @@ class _Page1State extends State<Page1> {
                 style: kSubTextStyle.copyWith(color: Colors.black),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //SizedBox(width:5,),
-                  Container(
-                    width: MediaQuery.of(context).size.width*0.5,
-                    child: Text(
-                      'name',
-                      style: kSubTextStyle.copyWith(
-                        color: Colors.purple,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width*0.2,
-                    child: Text(
-                      'Price',
-                      style: kSubTextStyle.copyWith(color: Colors.pink),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width*0.2,
-                    child: Text(
-                      'qty',
-                      style: kSubTextStyle.copyWith(color: Colors.indigo),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 300,
-              child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('Medicines')
-                    .snapshots(), //.where('vendor',isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots(),
-                builder: (context, snapshot) {
-                  List data = [];
-                  int j = 0;
-                  for (int i = 0; i < snapshot.data.docs.length; ++i) {
-                    if (snapshot.data.docs[i]['vendor'] ==
-                        pref.get('uid')) {
-                      data.add([
-                        snapshot.data.docs[i]['name'],
-                        snapshot.data.docs[i]['qty'],
-                        snapshot.data.docs[i]['avgPrice']
-                      ]);
-                      j++;
-                    }
-                  }
-                  return SizedBox(
-                    height: 500,
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      physics: BouncingScrollPhysics(),
-                      itemCount: j, //snapshot.data.docs.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: (Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                  child: Text(
-                                data[index][0],
-                                style: kSubTextStyle.copyWith(color: Colors.blue),
-                              ),
-                                width: MediaQuery.of(context).size.width*0.5,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.2,
-                                child: Text(
-                                  data[index][1],
-                                  style:
-                                      kSubTextStyle.copyWith(color: Colors.black),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.2,
-                                child: Text(
-                                  data[index][2],
-                                  style: kSubTextStyle.copyWith(color: secolor),
-                                ),
-                              )
-                            ],
-                          )),
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            )
+            ResourcesHeading(),
+            UserResourceList()
           ],
         ),
+      ),
+    );
+  }
+
+  // Following method generates the User Resource List from Firebase
+  SizedBox UserResourceList() {
+    return SizedBox(
+      height: 300,
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Medicines')
+            .snapshots(), //.where('vendor',isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots(),
+        builder: (context, snapshot) {
+          List data = [];
+          int j = 0;
+          for (int i = 0; i < snapshot.data.docs.length; ++i) {
+            if (snapshot.data.docs[i]['vendor'] == pref.get('uid')) {
+              data.add([
+                snapshot.data.docs[i]['name'],
+                snapshot.data.docs[i]['qty'],
+                snapshot.data.docs[i]['avgPrice']
+              ]);
+              j++;
+            }
+          }
+          return SizedBox(
+            height: 500,
+            child: ListView.builder(
+              padding: EdgeInsets.all(0),
+              physics: BouncingScrollPhysics(),
+              itemCount: j, //snapshot.data.docs.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: (){
+                      print("User Resource");
+                      //ToDo:add a navigator to a area in profile where user can manage resources
+                    },
+                    child: (Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Text(
+                            data[index][0],
+                            style: kSubTextStyle.copyWith(color: Colors.blue),
+                          ),
+                          width: MediaQuery.of(context).size.width * 0.5,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: Text(
+                            data[index][1],
+                            style: kSubTextStyle.copyWith(color: Colors.black),
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: Text(
+                            data[index][2],
+                            style: kSubTextStyle.copyWith(color: secolor),
+                          ),
+                        )
+                      ],
+                    )),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ResourcesHeading extends StatelessWidget {
+  const ResourcesHeading({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          //SizedBox(width:5,),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: Text(
+              'name',
+              style: kSubTextStyle.copyWith(
+                color: Colors.purple,
+              ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: Text(
+              'Price',
+              style: kSubTextStyle.copyWith(color: Colors.pink),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: Text(
+              'qty',
+              style: kSubTextStyle.copyWith(color: Colors.indigo),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -234,12 +257,7 @@ Container ItemCard(
               ),
               GestureDetector(
                 onTap: () {
-                  // setState(() {
-                  //   if (resoures['medicine'][index]['inCart'] != 0)
-                  //     resoures['medicine'][index]['inCart'] = 0;
-                  //   else
-                  //     resoures['medicine'][index]['inCart'] = 1;
-                  // });
+                  //Navigator.push(context,MaterialPageRoute(builder: builder));
                 },
                 child: Container(
                   child: Icon(FontAwesomeIcons.heart),
@@ -295,8 +313,6 @@ Row seachArea(BuildContext context) {
     ],
   );
 }
-
-
 
 class Greeting extends StatelessWidget {
   const Greeting({
