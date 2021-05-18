@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:comm_resources/constants.dart';
 import 'package:comm_resources/screens/Login/AddNewUserDetails.dart';
 import 'package:comm_resources/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -120,37 +121,7 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height*0.2,),
-                SizedBox(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const SizedBox(width: 20.0, height: 100.0),
-                      const Text(
-                        'Stay',
-                        style: TextStyle(fontSize: 43.0),
-                      ),
-                      const SizedBox(width: 20.0, height: 100.0),
-                      SizedBox(
-                        width: 220,
-                        child: DefaultTextStyle(
-                          style: const TextStyle(
-                            fontSize: 35.0,
-                            fontFamily: 'Horizon',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black
-                          ),
-                          child: AnimatedTextKit(animatedTexts: [
-                            RotateAnimatedText('SAFE'),
-                            RotateAnimatedText('OPTIMISTIC'),
-                            RotateAnimatedText('DIFFERENT'),
-                            RotateAnimatedText('CONNECTED')
-                          ]),
-                        ),
-                      ),
-                    ],
-                  ),
-                  height: 100,
-                ),
+                TopGreetingAnimation(),
                 SizedBox(height: 10,),
                 Image.asset(
                   'assets/help.png',
@@ -215,37 +186,7 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height*0.2,),
-            SizedBox(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const SizedBox(width: 20.0, height: 100.0),
-                  const Text(
-                    'Stay',
-                    style: TextStyle(fontSize: 43.0),
-                  ),
-                  const SizedBox(width: 20.0, height: 100.0),
-                  SizedBox(
-                    width: 240,
-                    child: DefaultTextStyle(
-                      style: const TextStyle(
-                          fontSize: 30.0,
-                          fontFamily: 'Horizon',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
-                      ),
-                      child: AnimatedTextKit(animatedTexts: [
-                        RotateAnimatedText('SAFE'),
-                        RotateAnimatedText('OPTIMISTIC'),
-                        RotateAnimatedText('DIFFERENT'),
-                        RotateAnimatedText('CONNECTED')
-                      ]),
-                    ),
-                  ),
-                ],
-              ),
-              height: 100,
-            ),
+            TopGreetingAnimation(),
             SizedBox(height: 10,),
             Image.asset(
               'assets/help.png',
@@ -292,10 +233,60 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(30)
                 ),
               ),
+            ),
+            SizedBox(height: 15,),
+            GestureDetector(
+              onTap: (){
+                setState(() {
+                  currIndex--;
+                });
+              },
+              child: Text("Go Back",style: kHeadFontStyle,),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class TopGreetingAnimation extends StatelessWidget {
+  const TopGreetingAnimation({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const SizedBox(width: 20.0, height: 100.0),
+          const Text(
+            'Stay',
+            style: TextStyle(fontSize: 43.0),
+          ),
+          const SizedBox(width: 20.0, height: 100.0),
+          SizedBox(
+            width: 240,
+            child: DefaultTextStyle(
+              style: const TextStyle(
+                  fontSize: 30.0,
+                  fontFamily: 'Horizon',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black
+              ),
+              child: AnimatedTextKit(animatedTexts: [
+                RotateAnimatedText('SAFE'),
+                RotateAnimatedText('OPTIMISTIC'),
+                RotateAnimatedText('DIFFERENT'),
+                RotateAnimatedText('CONNECTED')
+              ]),
+            ),
+          ),
+        ],
+      ),
+      height: 100,
     );
   }
 }
