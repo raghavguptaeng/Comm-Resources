@@ -127,6 +127,12 @@ class _addItemState extends State<addItem> {
               'avgPrice': price,
               'vendor': FirebaseAuth.instance.currentUser.uid
             });
+            final snackBar = SnackBar(
+              content: Text('Resource Added Successfully'),
+            );
+            // Find the ScaffoldMessenger in the widget tree
+            // and use it to show a SnackBar.
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           child: Container(
             decoration: BoxDecoration(
