@@ -30,8 +30,8 @@ class _ResourceInfoState extends State<ResourceInfo> {
                   Center(
                       child: TopImage(
                     image: widget.image,
-                  )),
-                  Center(
+                  ),),
+                  Center( //Following is the Resource Name
                     child: Text(
                       data['name'],
                       style: kHeadFontStyle.copyWith(fontSize: 35),
