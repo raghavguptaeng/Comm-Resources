@@ -225,9 +225,12 @@ Container ItemCard(
         Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/bottle${(index > 4 || index % 4 == 0) ? index % 4 + 1 : index + 1}.png',
-              width: 105,
+            child: Hero(
+              tag: 'img',
+              child: Image.asset(
+                'assets/bottle${(index > 4 || index % 4 == 0) ? index % 4 + 1 : index + 1}.png',
+                width: 105,
+              ),
             ),
           ),
         ),
@@ -257,7 +260,10 @@ Container ItemCard(
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context,MaterialPageRoute(builder:(context)=>ResourceInfo()));
+                  Navigator.push(context,MaterialPageRoute(builder:(context)=>ResourceInfo(index: index,image: Image.asset(
+                    'assets/bottle${(index > 4 || index % 4 == 0) ? index % 4 + 1 : index + 1}.png',
+                    width: 200,
+                  ),)));
                 },
                 child: Container(
                   child: Icon(FontAwesomeIcons.heart),
