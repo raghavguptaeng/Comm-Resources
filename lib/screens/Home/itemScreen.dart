@@ -257,7 +257,7 @@ Container ItemCard(
               ),
               GestureDetector(
                 onTap: () {
-                  //Navigator.push(context,MaterialPageRoute(builder: builder));
+                  Navigator.push(context,MaterialPageRoute(builder:(context)=>ResourceInfo()));
                 },
                 child: Container(
                   child: Icon(FontAwesomeIcons.heart),

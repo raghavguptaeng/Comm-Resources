@@ -9,6 +9,8 @@ class ResourceInfo extends StatefulWidget {
 class _ResourceInfoState extends State<ResourceInfo> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(),
+    );
   }
 }
