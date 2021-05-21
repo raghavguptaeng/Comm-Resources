@@ -1,6 +1,7 @@
 import 'package:comm_resources/constants.dart';
 import 'package:comm_resources/screens/Home/Profile.dart';
 import 'package:comm_resources/screens/Home/addItem.dart';
+import 'package:comm_resources/screens/Home/cart.dart';
 import 'package:comm_resources/screens/Login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
             index: navPos,
             children: [
               Page1(),
-              Page1(),
+              Cart(),
               addItem(),
               Profile()
             ],

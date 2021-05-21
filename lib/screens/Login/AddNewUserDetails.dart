@@ -116,7 +116,8 @@ class _AddNewUserDetailsState extends State<AddNewUserDetails> {
                     'name':Name,
                     'age':Age,
                     'Country':Country,
-                    'City':City
+                    'City':City,
+                    'phno':FirebaseAuth.instance.currentUser.phoneNumber
                   });
               Navigator.pushReplacementNamed(context, MainScreen.id);
             },

@@ -1,6 +1,11 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comm_resources/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants.dart';
+import '../../constants.dart';
 
 class ResourceInfo extends StatefulWidget {
   ResourceInfo({this.index, this.image});
@@ -17,31 +22,81 @@ class _ResourceInfoState extends State<ResourceInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: StreamBuilder(
-          stream:
-              FirebaseFirestore.instance.collection('Medicines').snapshots(),
-          builder: (context, snapshot) {
-            var data = snapshot.data.docs[widget.index];
-            return Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                      child: TopImage(
-                    image: widget.image,
-                  ),),
-                  Center( //Following is the Resource Name
-                    child: Text(
-                      data['name'],
-                      style: kHeadFontStyle.copyWith(fontSize: 35),
+      body: SingleChildScrollView(
+        child: Center(
+          child: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection('Medicines').snapshots(),
+            builder: (context, snapshot) {
+              var data = snapshot.data.docs[widget.index];
+              return Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                        child: TopImage(
+                      image: widget.image,
+                    ),),
+                    Center( //Following is the Resource Name
+                      child: Text(
+                        data['name'],
+                        style: kHeadFontStyle.copyWith(fontSize: 35),
+                      ),
                     ),
-                  ),
-                  RequirementRow()
-                ],
-              ),
-            );
-          },
+                    RequirementRow(),
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2
+                          )
+                        ),
+                        width: MediaQuery.of(context).size.width*0.8,
+                        child: TextField(
+                          onChanged: (value){
+                            reason = value;
+                          },
+                          decoration: InputDecoration(
+                            labelText: "Reason for Requirement",
+                            labelStyle: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black
+                            ),
+                          ),
+                          maxLines: 5,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+                    Center(
+                      child: GestureDetector(
+                        onTap: (){
+                          FirebaseFirestore.instance.collection('Cart').doc(FirebaseAuth.instance.currentUser.uid).collection("Resource").doc().set(
+                              {
+                                'vendor':data['vendor'],
+                                'requirement':requirement,
+                                'reason':reason
+                              });
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: 250,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: secolor,
+                            borderRadius: BorderRadius.circular(25)
+                          ),
+                          child: Center(child: Text("Post your Requirement",style: kHeadFontStyle,),),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
