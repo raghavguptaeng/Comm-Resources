@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comm_resources/constants.dart';
 import 'package:comm_resources/screens/Login/login.dart';
+import 'package:comm_resources/screens/Resources/myResources.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -142,9 +143,16 @@ class TopProfileBar extends StatelessWidget {
               style: kHeadFontStyle.copyWith(color: Colors.black),
             ),
           ),
-          Icon(
-            Icons.supervised_user_circle_outlined,
-            size: 55,
+          GestureDetector(
+            onTap: (){
+              Navigator.pushNamed(context, MyResources.id);
+            },
+            child: Row(
+              children: [
+                Text('My Requests',style: kHeadFontStyle.copyWith(color: Colors.black),),
+                Icon(Icons.arrow_forward_ios_sharp)
+              ],
+            ),
           ),
         ],
       ),

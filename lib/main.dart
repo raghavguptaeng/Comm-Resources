@@ -1,6 +1,7 @@
 import 'package:comm_resources/screens/Login/AddNewUserDetails.dart';
 import 'package:comm_resources/screens/MainScreen.dart';
 import 'package:comm_resources/screens/Login/login.dart';
+import 'package:comm_resources/screens/Resources/myResources.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +21,8 @@ class Init extends StatelessWidget {
       routes: {
         Login.id:(context)=>Login(),
         MainScreen.id:(context)=>MainScreen(),
-        AddNewUserDetails.id:(context)=>AddNewUserDetails()
+        AddNewUserDetails.id:(context)=>AddNewUserDetails(),
+        MyResources.id:(context)=>MyResources()
       },
       initialRoute:(pref.getString('uid')==null)?Login.id:MainScreen.id,
     );
