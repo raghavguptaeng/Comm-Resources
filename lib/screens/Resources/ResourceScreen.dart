@@ -80,7 +80,8 @@ class _ResourceInfoState extends State<ResourceInfo> {
                                   'requirement':requirement,
                                   'reason':reason,
                                   'name':data['name'],
-                                  'index':widget.index
+                                  'index':widget.index,
+                                  'taker':FirebaseAuth.instance.currentUser.uid
                                 });
                           }
                           Navigator.pop(context);
