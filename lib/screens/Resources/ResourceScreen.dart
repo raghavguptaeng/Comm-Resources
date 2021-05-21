@@ -77,7 +77,9 @@ class _ResourceInfoState extends State<ResourceInfo> {
                               {
                                 'vendor':data['vendor'],
                                 'requirement':requirement,
-                                'reason':reason
+                                'reason':reason,
+                                'name':data['name'],
+                                'index':widget.index
                               });
                           Navigator.pop(context);
                         },

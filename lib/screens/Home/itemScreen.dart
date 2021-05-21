@@ -215,7 +215,7 @@ Container ItemCard(
     BuildContext context, int index, String name, String qty, String price) {
   return Container(
     margin: EdgeInsets.all(15),
-    width: MediaQuery.of(context).size.width * 0.50,
+    width: MediaQuery.of(context).size.width * 0.55,
     decoration: BoxDecoration(
         color: Colors.blue, borderRadius: BorderRadius.circular(20)),
     child: Column(
