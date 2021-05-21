@@ -3,6 +3,7 @@ import 'package:comm_resources/screens/Login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class Profile extends StatefulWidget {
   const Profile({Key key}) : super(key: key);
 
@@ -14,15 +15,46 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: GestureDetector(
-          onTap: ()async{
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            print(pref.getString('uid'));
-            pref.remove('uid');
-            FirebaseAuth.instance.signOut();
-            Navigator.pushReplacementNamed(context, Login.id);
-          },
-          child: Text('Logout',style: kHeadFontStyle.copyWith(color: Colors.black),)),
+      child: Column(
+        children: [
+          TopProfileBar(),
+        ],
+      ),
+    );
+  }
+}
+
+class TopProfileBar extends StatelessWidget {
+  const TopProfileBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () async {
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              print(pref.getString('uid'));
+              pref.remove('uid');
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacementNamed(context, Login.id);
+            },
+            child: Text(
+              'Logout',
+              style: kHeadFontStyle.copyWith(color: Colors.black),
+            ),
+          ),
+          Icon(
+            Icons.supervised_user_circle_outlined,
+            size: 55,
+          ),
+        ],
+      ),
     );
   }
 }
