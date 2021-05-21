@@ -95,7 +95,7 @@ class _ProfileState extends State<Profile> {
                             onTap: (){
                               setState(() {
                                 changePhoneNum = !changePhoneNum;
-                                if(changePhoneNum == true){
+                                if(changePhoneNum == false){
                                   FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).update({
                                     "phno":newNum
                                   });
