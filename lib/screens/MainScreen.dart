@@ -33,20 +33,23 @@ class _MainScreenState extends State<MainScreen> {
               Profile()
             ],
           ),
-        ],
-      ),
-      bottomNavigationBar: CurvedBottomNavigation(
-        selected: navPos,
-        onItemClick: (i) {
-          setState(() {
-            navPos = i;
-          });
-        },
-        items: [
-          Icon(FontAwesomeIcons.home, color: secolor),
-          Icon(FontAwesomeIcons.cartPlus, color: secolor),
-          Icon(FontAwesomeIcons.plus, color: secolor),
-          Icon(FontAwesomeIcons.user, color: secolor)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: CurvedBottomNavigation(
+              selected: navPos,
+              onItemClick: (i) {
+                setState(() {
+                  navPos = i;
+                });
+              },
+              items: [
+                Icon(FontAwesomeIcons.home, color: secolor),
+                Icon(FontAwesomeIcons.cartPlus, color: secolor),
+                Icon(FontAwesomeIcons.plus, color: secolor),
+                Icon(FontAwesomeIcons.user, color: secolor)
+              ],
+            ),
+          )
         ],
       ),
     );
