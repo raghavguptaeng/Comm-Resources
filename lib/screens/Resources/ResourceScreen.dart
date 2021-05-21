@@ -17,7 +17,7 @@ class ResourceInfo extends StatefulWidget {
 
 class _ResourceInfoState extends State<ResourceInfo> {
   int requirement = 0;
-  String reason,contact;
+  String reason='',contact;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +73,16 @@ class _ResourceInfoState extends State<ResourceInfo> {
                     Center(
                       child: GestureDetector(
                         onTap: (){
-                          FirebaseFirestore.instance.collection('Cart').doc(FirebaseAuth.instance.currentUser.uid).collection("Resource").doc().set(
-                              {
-                                'vendor':data['vendor'],
-                                'requirement':requirement,
-                                'reason':reason,
-                                'name':data['name'],
-                                'index':widget.index
-                              });
+                          if(requirement.toInt()>0 && reason!=''){
+                            FirebaseFirestore.instance.collection('Cart').doc(FirebaseAuth.instance.currentUser.uid).collection("Resource").doc().set(
+                                {
+                                  'vendor':data['vendor'],
+                                  'requirement':requirement,
+                                  'reason':reason,
+                                  'name':data['name'],
+                                  'index':widget.index
+                                });
+                          }
                           Navigator.pop(context);
                         },
                         child: Container(
